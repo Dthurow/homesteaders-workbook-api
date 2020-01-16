@@ -49,7 +49,7 @@ namespace homesteadAPI
                 app.UseDeveloperExceptionPage();
                 //sets up the DB and seeds it with test data
                 Config CustomConfig = new Config(_context);
-                CustomConfig.initializeDatabase();
+                CustomConfig.InitializeDatabase();
             }
 
             app.UseHttpsRedirection();

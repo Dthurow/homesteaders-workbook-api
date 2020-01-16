@@ -69,7 +69,8 @@ namespace homesteadAPI
 
             List<Garden> defaultGardens = new List<Garden>(){
                       new Garden(){
-                        Name = "Joe's Garden"
+                        Name = "Joe's Garden",
+                        ID = 1
                       }
 
                 };
@@ -79,25 +80,25 @@ namespace homesteadAPI
 
 
 
-            List<GardenPlants> defaultGardenPlants = new List<GardenPlants>()
+            List<GardenPlant> defaultGardenPlants = new List<GardenPlant>()
             {
-                new GardenPlants(){
+                new GardenPlant(){
                      Name = "Dinosaur Kale",
-                     PlantID = 1,
+                     Plant = defaultPlants[0],
                      Count = 5,
-                     GardenId = 1
+                     Garden = defaultGardens[0]
                 },
-                new GardenPlants(){
+                new GardenPlant(){
                      Name = "Sweet Basil",
-                     PlantID = 2,
+                     Plant = defaultPlants[1],
                      Count = 5,
-                     GardenId = 1
+                      Garden = defaultGardens[0]
                 },
-                new GardenPlants(){
+                new GardenPlant(){
                      Name = "Peppermint",
-                     PlantID = 2,
+                     Plant = defaultPlants[2],
                      Count = 1,
-                     GardenId = 1
+                     Garden = defaultGardens[0]
                 }
 
             };
