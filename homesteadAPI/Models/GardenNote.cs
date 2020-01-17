@@ -13,7 +13,6 @@ namespace homesteadAPI.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public int GardenId { get; set; }
         public virtual Garden Garden { get; set; }
 
     }

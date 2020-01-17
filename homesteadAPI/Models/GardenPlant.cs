@@ -13,9 +13,7 @@ namespace homesteadAPI.Models
         public DateTime CreatedOn {get; set;}
 
         #region foreign key relations
-        public int PlantID {get; set;}
         public virtual Plant Plant {get; set;}
-        public int GardenID {get; set;}
         public virtual Garden Garden {get; set;}
         #endregion
 
