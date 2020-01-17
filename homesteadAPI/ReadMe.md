@@ -47,10 +47,10 @@ n/a for now
 * Create Git Repo and basic .gitignore file
 * Create basic data model and set-up to create/seed database on startup of dev site
 * Create readme with functionality list and tech TO-DOs
+* set-up testing framework
 
 ### Need to be done
 * Create auto-generated API Documentation
-* set-up testing framework
 * set-up non-dev SQL database and configurations
 * set-up/configure deploy to a test environment not on my local system so others can test it
 * Set-up log in to incorporate google account login
