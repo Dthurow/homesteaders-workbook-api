@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace homesteadAPI.Models
 {
@@ -21,6 +22,7 @@ namespace homesteadAPI.Models
 
         public long PlantGroupId { get; set; }
         public virtual PlantGroup PlantGroup { get; set; }
+        public virtual ICollection<GardenPlant> GardenPlants { get; set; }
 
     }
 
