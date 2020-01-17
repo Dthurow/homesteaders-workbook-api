@@ -96,7 +96,7 @@ namespace homesteadAPI.Controllers
             }
 
             //if the plant has any associated garden plants to it, can't delete
-            if (plant.GardenPlants.Any()){
+            if (plant.GardenPlants != null && plant.GardenPlants.Any()){
                 return Problem("Plant must have no associated Garden Plants associated with it", statusCode: 428);
             }
 
