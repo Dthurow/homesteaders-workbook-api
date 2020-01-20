@@ -39,6 +39,21 @@ namespace homesteadAPI
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+
+
+            //basically a terrible policy that should ONLY be used during initial dev
+            //for ease of use, since I don't know what sort of front-end I actually want yet
+             services.AddCors(options =>
+                {
+                    options.AddPolicy("DevCustomCORS",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyMethod();
+                        builder.AllowAnyHeader();
+                    });
+                });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +65,7 @@ namespace homesteadAPI
                 //sets up the DB and seeds it with test data
                 Config CustomConfig = new Config(_context);
                 CustomConfig.InitializeDatabase();
+                app.UseCors("DevCustomCORS");
             }
 
             app.UseHttpsRedirection();

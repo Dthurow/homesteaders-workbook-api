@@ -92,7 +92,7 @@ namespace homesteadAPITests
             }
 
         }
-    
+
         [Fact]
         public void DeletePlantByIDTest()
         {
@@ -174,11 +174,11 @@ namespace homesteadAPITests
             }
 
         }
-    
+
         [Fact]
         public void DeletePlantThatDoesntExistByIDTest()
         {
-             // In-memory database only exists while the connection is open
+            // In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
@@ -238,6 +238,93 @@ namespace homesteadAPITests
                     Assert.Null(result.Result.Value);
                     Assert.Equal(typeof(Microsoft.AspNetCore.Mvc.NotFoundResult), result.Result.Result.GetType());
 
+                }
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
+        public void DeletePlantByIDThatHasGardenPlantsAssociatedWithItTest()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<HomesteadDataContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Run the test against one instance of the context
+                using (var context = new HomesteadDataContext(options))
+                {
+                    //arrange
+                    //Create a plant associated with a gardenplant, then try to delete it
+                    context.Database.EnsureCreated();
+                    List<PlantGroup> defaultPlantGroups = new List<PlantGroup>()
+                    {
+                        new PlantGroup(){
+                            Name = "Kale",
+                            Description = "kale"
+                        }
+                    };
+
+                    context.PlantGroups.AddRange(defaultPlantGroups);
+                    context.SaveChanges();
+
+
+                    List<Plant> defaultPlants = new List<Plant>()
+                    {
+                        new Plant(){
+                            Name = "Dinosaur Kale",
+                            Description = "winter kale",
+                            ID = 1,
+                            PlantGroupId = 1
+                        }
+                    };
+                    context.Plants.AddRange(defaultPlants);
+                    context.SaveChanges();
+
+                    List<Garden> defaultGardens = new List<Garden>()
+                    {
+                      new Garden(){
+                        Name = "Joe's Garden",
+                        ID = 1
+                      }
+
+                    };
+
+                    context.Gardens.AddRange(defaultGardens);
+                    context.SaveChanges();
+
+                    List<GardenPlant> defaultGardenPlants = new List<GardenPlant>()
+                    {
+                        new GardenPlant(){
+                            Name = "Dinosaur Kale",
+                            Plant = defaultPlants[0],
+                            Count = 5,
+                            Garden = defaultGardens[0]
+                        }
+
+                    };
+
+                    context.GardenPlants.AddRange(defaultGardenPlants);
+                    context.SaveChanges();
+
+
+                    PlantsController x = new PlantsController(context);
+
+                    //act
+                    var result = x.DeletePlant(1);
+
+                    //assert
+                    Assert.NotNull(result.Exception);
+                    
                 }
 
             }
