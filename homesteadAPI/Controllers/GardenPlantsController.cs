@@ -79,6 +79,11 @@ namespace homesteadAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<GardenPlant>> PostGardenPlant(GardenPlant gardenPlant)
         {
+
+            if (gardenPlant.PlantID == 0 || gardenPlant.GardenID == 0){
+                return BadRequest();
+            }
+
             _context.GardenPlants.Add(gardenPlant);
             await _context.SaveChangesAsync();
 

@@ -14,7 +14,13 @@ namespace homesteadAPI.Models
 
         #region foreign key relations
         public virtual Plant Plant {get; set;}
+
+        public virtual long PlantID {get; set;}
+
         public virtual Garden Garden {get; set;}
+
+        public virtual long GardenID {get; set;}
+
         #endregion
 
     }
