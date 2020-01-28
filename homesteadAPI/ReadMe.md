@@ -50,6 +50,7 @@ n/a for now
 * set-up testing framework
 
 ### Need to be done
+* Set API to not return quite as many related entities as it currently is
 * Create auto-generated API Documentation
 * set-up non-dev SQL database and configurations
 * set-up/configure deploy to a test environment not on my local system so others can test it

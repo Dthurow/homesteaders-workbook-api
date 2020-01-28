@@ -47,6 +47,16 @@ namespace homesteadAPI
             List<Plant> defaultPlants = new List<Plant>(){
                         new Plant(){
                             Name = "Dinosaur Kale",
+                            Description = "winter kale, delicious sauteed in butter",
+                            PlantGroupId = 1
+                        },
+                         new Plant(){
+                            Name = "King Kale",
+                            Description = "winter kale",
+                            PlantGroupId = 1
+                        },
+                         new Plant(){
+                            Name = "Winter Red Kale",
                             Description = "winter kale",
                             PlantGroupId = 1
                         },
@@ -55,8 +65,18 @@ namespace homesteadAPI
                             Description = "the pesto-bilities are endless",
                             PlantGroupId = 2
                         },
+                         new Plant(){
+                            Name = "Thai Basil",
+                            Description = "pho-ndamentally delicious",
+                            PlantGroupId = 2
+                        },
                         new Plant(){
                             Name = "Peppermint",
+                            Description = "Makes a delicious tea",
+                            PlantGroupId = 3
+                        },
+                        new Plant(){
+                            Name = "Spearmint",
                             Description = "Makes a delicious tea",
                             PlantGroupId = 3
                         }
@@ -70,7 +90,12 @@ namespace homesteadAPI
             List<Garden> defaultGardens = new List<Garden>(){
                       new Garden(){
                         Name = "Joe's Garden",
-                        ID = 1
+                        ID = 1,
+                        GrowingSeasonStartDate = new System.DateTime(2019, 1, 15),
+                        GrowingSeasonEndDate = new System.DateTime(2019, 10, 31),
+                        Width = 20,
+                        Length = 10,
+                        MeasurementType = MeasurementType.feet
                       }
 
                 };
@@ -91,7 +116,7 @@ namespace homesteadAPI
                 new GardenPlant(){
                      Name = "Sweet Basil",
                      Plant = defaultPlants[1],
-                     Count = 5,
+                     Count = 6,
                       Garden = defaultGardens[0]
                 },
                 new GardenPlant(){
