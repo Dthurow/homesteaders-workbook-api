@@ -45,14 +45,17 @@ namespace homesteadAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlant(long id, Plant plant)
+        public async Task<ActionResult<Plant>> PutPlant(long id, Plant plant)
         {
             if (id != plant.ID)
             {
                 return BadRequest();
             }
-
-            _context.Entry(plant).State = EntityState.Modified;
+            var dbplant = _context.Plants.Find(plant.ID);
+            if (dbplant != null){
+                dbplant.Name = plant.Name;
+                dbplant.Description = plant.Description;
+            }
 
             try
             {
@@ -70,7 +73,7 @@ namespace homesteadAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return dbplant;
         }
 
         // POST: api/Plants
