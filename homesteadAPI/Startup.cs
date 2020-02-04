@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using homesteadAPI.Models;
 using Microsoft.EntityFrameworkCore.Proxies;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace homesteadAPI
 {
@@ -29,6 +30,19 @@ namespace homesteadAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //Add authentication for Auth0
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(options =>
+                {
+                    options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
+                    options.Audience = Configuration["Auth0:Audience"];
+                });
+
+
             services.AddDbContext<HomesteadDataContext>(opt =>
               opt.UseLazyLoadingProxies() //it will auto-load related entities when properties are accessed
               .UseInMemoryDatabase("HomesteadData") //currently uses inmemory, should eventually be moved to SQL db
@@ -43,16 +57,16 @@ namespace homesteadAPI
 
             //basically a terrible policy that should ONLY be used during initial dev
             //for ease of use, since I don't know what sort of front-end I actually want yet
-             services.AddCors(options =>
-                {
-                    options.AddPolicy("DevCustomCORS",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyMethod();
-                        builder.AllowAnyHeader();
-                    });
-                });
+            services.AddCors(options =>
+               {
+                   options.AddPolicy("DevCustomCORS",
+                   builder =>
+                   {
+                       builder.AllowAnyOrigin();
+                       builder.AllowAnyMethod();
+                       builder.AllowAnyHeader();
+                   });
+               });
 
         }
 
@@ -72,6 +86,7 @@ namespace homesteadAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
