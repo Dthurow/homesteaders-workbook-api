@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json;
 
 namespace homesteadAPI.Models
 {
@@ -11,6 +12,8 @@ namespace homesteadAPI.Models
 
         public string Body {get; set;}
 
+        
+        [JsonIgnoreAttribute]
         public DateTime CreatedOn { get; set; }
 
         public virtual Garden Garden { get; set; }

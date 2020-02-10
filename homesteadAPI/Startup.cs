@@ -50,9 +50,11 @@ namespace homesteadAPI
 
             //use newtonsoft json with loop handling so EFCore doesn't trigger circular loops when
             //serializing to JSON in the API controller
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            services.AddControllers().AddNewtonsoftJson(options =>{
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.DateFormatString = "MM-dd-yyyy";
+
+            });
 
 
             //basically a terrible policy that should ONLY be used during initial dev

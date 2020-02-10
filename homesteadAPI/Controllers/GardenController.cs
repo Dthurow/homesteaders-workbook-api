@@ -12,7 +12,7 @@ namespace homesteadAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class GardensController : ControllerBase
     {
         private readonly HomesteadDataContext _context;

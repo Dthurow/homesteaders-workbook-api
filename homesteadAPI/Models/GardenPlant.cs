@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace homesteadAPI.Models
 {
@@ -9,7 +10,9 @@ namespace homesteadAPI.Models
         public string Name {get; set;}
         public int Count {get; set;}
         public int YieldEstimated{get; set;}
-        public int YieldActual {get; set;}
+        public int? YieldActual {get; set;}
+
+        [JsonIgnoreAttribute]
         public DateTime CreatedOn {get; set;}
 
         #region foreign key relations
@@ -17,6 +20,7 @@ namespace homesteadAPI.Models
 
         public virtual long PlantID {get; set;}
 
+        [JsonIgnoreAttribute]
         public virtual Garden Garden {get; set;}
 
         public virtual long GardenID {get; set;}

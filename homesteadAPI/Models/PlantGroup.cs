@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json;
 
 namespace homesteadAPI.Models
 {
@@ -9,8 +10,11 @@ namespace homesteadAPI.Models
         public long ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        [JsonIgnoreAttribute]
         public DateTime CreatedOn { get; set; }
 
+        [JsonIgnoreAttribute]
         public virtual ICollection<Plant> Plants { get; set; }
 
     }

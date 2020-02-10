@@ -63,22 +63,26 @@ namespace homesteadAPI
                         new Plant(){
                             Name = "Sweet Basil",
                             Description = "the pesto-bilities are endless",
-                            PlantGroupId = 2
+                            PlantGroupId = 2,
+                            YieldType = YieldType.Ounces
                         },
                          new Plant(){
                             Name = "Thai Basil",
                             Description = "pho-ndamentally delicious",
-                            PlantGroupId = 2
+                            PlantGroupId = 2,
+                            YieldType = YieldType.Ounces
                         },
                         new Plant(){
                             Name = "Peppermint",
                             Description = "Makes a delicious tea",
-                            PlantGroupId = 3
+                            PlantGroupId = 3,
+                            YieldType = YieldType.Ounces
                         },
                         new Plant(){
                             Name = "Spearmint",
                             Description = "Makes a delicious tea",
-                            PlantGroupId = 3
+                            PlantGroupId = 3,
+                            YieldType = YieldType.Ounces
                         }
 
                 };

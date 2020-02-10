@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace homesteadAPI.Models
 {
@@ -13,7 +16,11 @@ namespace homesteadAPI.Models
 
     public class Garden
     {
+
+        [Required]
         public long ID {get; set;}
+
+        [Required]
         public string Name {get; set;}
 
         public string GrowingDateRange {get; set;}
@@ -24,12 +31,16 @@ namespace homesteadAPI.Models
 
         public decimal Width{get; set;}
         public decimal Length {get; set;}
+
+        [JsonConverter(typeof(StringEnumConverter))]
         public MeasurementType MeasurementType{get; set;}
 
+        [JsonIgnoreAttribute]
         public DateTime CreatedOn {get; set;}
 
          public int PersonID {get; set;}
          
+         [Required]
         public virtual Person Person {get; set;}
 
         public virtual ICollection<GardenPlant> GardenPlants { get; set; }
