@@ -38,9 +38,10 @@ namespace homesteadAPI.Models
         [JsonIgnoreAttribute]
         public DateTime CreatedOn {get; set;}
 
+        [Required]
          public int PersonID {get; set;}
          
-         [Required]
+         
         public virtual Person Person {get; set;}
 
         public virtual ICollection<GardenPlant> GardenPlants { get; set; }

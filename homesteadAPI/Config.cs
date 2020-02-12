@@ -2,6 +2,7 @@ using homesteadAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace homesteadAPI
 {
@@ -133,6 +134,59 @@ namespace homesteadAPI
             };
 
             _context.GardenPlants.AddRange(defaultGardenPlants);
+            _context.SaveChanges();
+
+            List<Person> defaultPersons = new List<Person>()
+            {
+                new Person()
+                {
+                     Name = "Jim Bob",
+                     Email = "jim@bob.com",
+                     CreatedOn = DateTime.Now
+
+                },
+                new Person()
+                {
+                    Name = "Danielle Thurow",
+                     Email = "dan.thurow@gmail.com",
+                     CreatedOn = DateTime.Now
+                },
+                new Person()
+                {
+                     Name = "Jeb Thurow",
+                     Email = "jeb@test.com",
+                     CreatedOn = DateTime.Now
+                }
+
+            };
+            _context.Persons.AddRange(defaultPersons);
+            _context.SaveChanges();
+
+
+            List<PersonPlant> defaultPersonPlants = new List<PersonPlant>()
+            {
+                new PersonPlant()
+                {
+                    Name = "Dinosaur Kale",
+                    Plant = defaultPlants[0],
+                    Person = defaultPersons[0]
+                },
+                new PersonPlant()
+                {
+                    Name = "Sweet Basil",
+                    Plant = defaultPlants[1],
+                    Person = defaultPersons[0]
+                },
+                new PersonPlant()
+                {
+                    Name = "Peppermint",
+                    Plant = defaultPlants[2],
+                    Person = defaultPersons[0]
+                }
+
+            };
+
+            _context.PersonPlants.AddRange(defaultPersonPlants);
             _context.SaveChanges();
 
 

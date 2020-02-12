@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using homesteadAPI.Models;
 
 namespace homesteadAPI.Models
 {
@@ -15,6 +16,7 @@ namespace homesteadAPI.Models
         public DbSet<PlantGroup> PlantGroups { get; set; }
         public DbSet<GardenNote> GardenNotes {get; set;}
         public DbSet<Person> Persons{get; set;}
+        public DbSet<PersonPlant> PersonPlants { get; set; }
 
     }
 }

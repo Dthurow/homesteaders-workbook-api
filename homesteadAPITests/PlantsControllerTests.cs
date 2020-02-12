@@ -290,11 +290,26 @@ namespace homesteadAPITests
                     context.Plants.AddRange(defaultPlants);
                     context.SaveChanges();
 
+                    List<Person> defaultPersons = new List<Person>()
+                    {
+                        new Person()
+                        {
+                            Name = "Jim Bob",
+                            Email = "jim@bob.com",
+                            CreatedOn = DateTime.Now
+
+                        }
+
+                    };
+                    context.Persons.AddRange(defaultPersons);
+                    context.SaveChanges();
+
                     List<Garden> defaultGardens = new List<Garden>()
                     {
                       new Garden(){
                         Name = "Joe's Garden",
-                        ID = 1
+                        ID = 1,
+                        PersonID = 1
                       }
 
                     };
@@ -324,7 +339,7 @@ namespace homesteadAPITests
 
                     //assert
                     Assert.NotNull(result.Exception);
-                    
+
                 }
 
             }

@@ -20,6 +20,9 @@ namespace homesteadAPI.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public TimeSpan SeedLife {get; set;}
+
+
         [JsonConverter(typeof(StringEnumConverter))]
         public YieldType YieldType { get; set; }
 

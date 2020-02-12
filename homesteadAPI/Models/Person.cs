@@ -15,6 +15,8 @@ namespace homesteadAPI.Models
         public DateTime CreatedOn {get; set;}
 
         #region foreign key relations
+
+        [JsonIgnoreAttribute]
        public virtual ICollection<Garden> Gardens { get; set; }
         #endregion
         
