@@ -40,6 +40,7 @@ namespace homesteadAPI
                 {
                     options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
                     options.Audience = Configuration["Auth0:Audience"];
+                    options.SaveToken = true;
                 });
 
 

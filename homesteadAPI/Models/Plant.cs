@@ -11,7 +11,8 @@ namespace homesteadAPI.Models
         Pounds,
         Kilograms,
         Bushels,
-        Ounces
+        Ounces,
+        Bunch
     }
 
     public class Plant

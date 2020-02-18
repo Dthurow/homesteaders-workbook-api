@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace homesteadAPI.Models
 {
@@ -15,6 +16,8 @@ namespace homesteadAPI.Models
         public long ID {get; set;}
         public string Name {get; set;}
         public int Amount {get; set;}
+
+        [JsonConverter(typeof(StringEnumConverter))]
         public PersonPlantAmountType AmountType {get; set;}
 
         public DateTime BuyDate {get; set;}

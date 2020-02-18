@@ -20,12 +20,7 @@ namespace homesteadAPI.Controllers
             _context = context;
         }
 
-        // GET: api/PersonPlants
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonPlant>>> GetPersonPlant()
-        {
-            return await _context.PersonPlants.ToListAsync();
-        }
+        
 
         // GET: api/PersonPlants/5
         [HttpGet("{id}")]
