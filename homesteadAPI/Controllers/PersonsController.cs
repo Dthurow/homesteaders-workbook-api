@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using homesteadAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace homesteadAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PersonsController : ControllerBase
     {
         private readonly HomesteadDataContext _context;

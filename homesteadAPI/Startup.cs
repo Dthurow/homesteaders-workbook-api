@@ -15,6 +15,8 @@ using homesteadAPI.Models;
 using Microsoft.EntityFrameworkCore.Proxies;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using homesteadAPI.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace homesteadAPI
 {
@@ -32,16 +34,28 @@ namespace homesteadAPI
         {
 
             //Add authentication for Auth0
+             string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(options =>
                 {
-                    options.Authority = $"https://{Configuration["Auth0:Domain"]}/";
+                    options.Authority = domain;
                     options.Audience = Configuration["Auth0:Audience"];
                     options.SaveToken = true;
                 });
+
+
+            //Add support for scope validation
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("standard_user", policy => policy.Requirements.Add(new HasScopeRequirement("standard_user", domain)));
+                    options.AddPolicy("admin_user", policy => policy.Requirements.Add(new HasScopeRequirement("admin_user", domain)));
+                });
+
+            // register the scope authorization handler
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
 
             services.AddDbContext<HomesteadDataContext>(opt =>
@@ -51,7 +65,8 @@ namespace homesteadAPI
 
             //use newtonsoft json with loop handling so EFCore doesn't trigger circular loops when
             //serializing to JSON in the API controller
-            services.AddControllers().AddNewtonsoftJson(options =>{
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.DateFormatString = "MM-dd-yyyy";
 

@@ -46,6 +46,7 @@ namespace homesteadAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [Authorize("admin_user")]
         public async Task<ActionResult<Plant>> PutPlant(long id, Plant plant)
         {
             if (id != plant.ID)
@@ -81,6 +82,7 @@ namespace homesteadAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [Authorize("admin_user")]
         public async Task<ActionResult<Plant>> PostPlant(Plant plant)
         {
             _context.Plants.Add(plant);
@@ -91,6 +93,7 @@ namespace homesteadAPI.Controllers
 
         // DELETE: api/Plants/5
         [HttpDelete("{id}")]
+        [Authorize("admin_user")]
         public async Task<ActionResult<Plant>> DeletePlant(long id)
         {
             var plant = await _context.Plants.FindAsync(id);

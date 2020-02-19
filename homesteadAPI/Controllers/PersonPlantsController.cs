@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using homesteadAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace homesteadAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PersonPlantsController : ControllerBase
     {
         private readonly HomesteadDataContext _context;
@@ -40,14 +42,20 @@ namespace homesteadAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonPlant(long id, PersonPlant personPlant)
+        public async Task<ActionResult<PersonPlant>> PutPersonPlant(long id, PersonPlant personPlant)
         {
             if (id != personPlant.ID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(personPlant).State = EntityState.Modified;
+           var dbPersonPlant = _context.PersonPlants.Find(personPlant.ID);
+            if (dbPersonPlant != null){
+                dbPersonPlant.Name = personPlant.Name;
+                dbPersonPlant.Amount = personPlant.Amount;
+                dbPersonPlant.AmountType = personPlant.AmountType;
+                dbPersonPlant.BuyDate = personPlant.BuyDate;
+            }
 
             try
             {
@@ -65,7 +73,7 @@ namespace homesteadAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return dbPersonPlant;
         }
 
         // POST: api/PersonPlants
