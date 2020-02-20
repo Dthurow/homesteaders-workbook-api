@@ -44,17 +44,19 @@ namespace homesteadAPI.Controllers
         }
 
         // PUT: api/GardenPlants/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGardenPlant(long id, GardenPlant gardenPlant)
+        public async Task<ActionResult<GardenPlant>> PutGardenPlant(long id, GardenPlant gardenPlant)
         {
             if (id != gardenPlant.ID)
             {
                 return BadRequest();
             }
-
-            _context.Entry(gardenPlant).State = EntityState.Modified;
+            var dbGardenPlant = _context.GardenPlants.Find(gardenPlant.ID);
+            if (dbGardenPlant != null){
+                dbGardenPlant.Name = gardenPlant.Name;
+                dbGardenPlant.Count = gardenPlant.Count;
+                dbGardenPlant.YieldEstimated = gardenPlant.YieldEstimated;
+            }
 
             try
             {
@@ -72,7 +74,7 @@ namespace homesteadAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return dbGardenPlant;
         }
 
         // POST: api/GardenPlants
@@ -85,11 +87,17 @@ namespace homesteadAPI.Controllers
             if (gardenPlant.PlantID == 0 || gardenPlant.GardenID == 0){
                 return BadRequest();
             }
+            GardenPlant newPlant = new GardenPlant();
+            newPlant.Name = gardenPlant.Name;
+            newPlant.GardenID = gardenPlant.GardenID;
+            newPlant.PlantID = gardenPlant.PlantID;
+            newPlant.YieldEstimated = gardenPlant.YieldEstimated;
+            newPlant.Count = gardenPlant.Count;
 
-            _context.GardenPlants.Add(gardenPlant);
+            _context.GardenPlants.Add(newPlant);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGardenPlant", new { id = gardenPlant.ID }, gardenPlant);
+            return CreatedAtAction("GetGardenPlant", new { id = gardenPlant.ID }, newPlant);
         }
 
         // DELETE: api/GardenPlants/5

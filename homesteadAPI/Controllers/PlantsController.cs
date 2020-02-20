@@ -43,8 +43,6 @@ namespace homesteadAPI.Controllers
         }
 
         // PUT: api/Plants/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         [Authorize("admin_user")]
         public async Task<ActionResult<Plant>> PutPlant(long id, Plant plant)
