@@ -52,10 +52,13 @@ namespace homesteadAPI.Controllers
                 return BadRequest();
             }
             var dbGardenPlant = _context.GardenPlants.Find(gardenPlant.ID);
-            if (dbGardenPlant != null){
+            if (dbGardenPlant != null)
+            {
                 dbGardenPlant.Name = gardenPlant.Name;
-                dbGardenPlant.Count = gardenPlant.Count;
-                dbGardenPlant.YieldEstimated = gardenPlant.YieldEstimated;
+                dbGardenPlant.AmountPlanted = gardenPlant.AmountPlanted;
+                dbGardenPlant.YieldEstimatedPerAmountPlanted = gardenPlant.YieldEstimatedPerAmountPlanted;
+                dbGardenPlant.YieldType = gardenPlant.YieldType;
+                dbGardenPlant.AmountPlantedType = gardenPlant.AmountPlantedType;
             }
 
             try
@@ -91,8 +94,12 @@ namespace homesteadAPI.Controllers
             newPlant.Name = gardenPlant.Name;
             newPlant.GardenID = gardenPlant.GardenID;
             newPlant.PlantID = gardenPlant.PlantID;
-            newPlant.YieldEstimated = gardenPlant.YieldEstimated;
-            newPlant.Count = gardenPlant.Count;
+            newPlant.YieldType = gardenPlant.YieldType;
+            newPlant.AmountPlanted = gardenPlant.AmountPlanted;
+            newPlant.AmountPlantedType = gardenPlant.AmountPlantedType;
+            newPlant.YieldEstimatedPerAmountPlanted = gardenPlant.YieldEstimatedPerAmountPlanted;
+            newPlant.AmountPlanted = gardenPlant.AmountPlanted;
+            
 
             _context.GardenPlants.Add(newPlant);
             await _context.SaveChangesAsync();
@@ -104,6 +111,7 @@ namespace homesteadAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<GardenPlant>> DeleteGardenPlant(long id)
         {
+            //TODO - make sure they're only deleting garden plants that belong to them
             var gardenPlant = await _context.GardenPlants.FindAsync(id);
             if (gardenPlant == null)
             {

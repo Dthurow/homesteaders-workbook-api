@@ -26,6 +26,33 @@ namespace homesteadAPI
                 return;
             }
 
+             List<Person> defaultPersons = new List<Person>()
+            {
+                new Person()
+                {
+                     Name = "Jim Bob",
+                     Email = "jim@bob.com",
+                     CreatedOn = DateTime.Now
+
+                },
+                new Person()
+                {
+                    Name = "Danielle Thurow",
+                     Email = "dan.thurow@gmail.com",
+                     CreatedOn = DateTime.Now
+                },
+                new Person()
+                {
+                     Name = "Jeb Thurow",
+                     Email = "husky0420@gmail.com",
+                     CreatedOn = DateTime.Now
+                }
+
+            };
+            _context.Persons.AddRange(defaultPersons);
+            _context.SaveChanges();
+
+
             List<PlantGroup> defaultPlantGroups = new List<PlantGroup>(){
                         new PlantGroup(){
                             Name = "Kale",
@@ -49,41 +76,44 @@ namespace homesteadAPI
                         new Plant(){
                             Name = "Dinosaur Kale",
                             Description = "winter kale, delicious sauteed in butter",
-                            PlantGroupId = 1
+                            PlantGroupID = 1,
+                            Person = defaultPersons[0]
                         },
                          new Plant(){
                             Name = "King Kale",
                             Description = "winter kale",
-                            PlantGroupId = 1
+                            PlantGroupID = 1,
+                            Person = defaultPersons[0]
                         },
                          new Plant(){
                             Name = "Winter Red Kale",
                             Description = "winter kale",
-                            PlantGroupId = 1
+                            PlantGroupID = 1,
+                            Person = defaultPersons[0]
                         },
                         new Plant(){
                             Name = "Sweet Basil",
                             Description = "the pesto-bilities are endless",
-                            PlantGroupId = 2,
-                            YieldType = YieldType.Ounces
+                            PlantGroupID = 2,
+                            Person = defaultPersons[1]
                         },
                          new Plant(){
                             Name = "Thai Basil",
                             Description = "pho-ndamentally delicious",
-                            PlantGroupId = 2,
-                            YieldType = YieldType.Ounces
+                            PlantGroupID = 2,
+                            Person = defaultPersons[1]
                         },
                         new Plant(){
                             Name = "Peppermint",
                             Description = "Makes a delicious tea",
-                            PlantGroupId = 3,
-                            YieldType = YieldType.Ounces
+                            PlantGroupID = 3,
+                            Person = defaultPersons[1]
                         },
                         new Plant(){
                             Name = "Spearmint",
                             Description = "Makes a delicious tea",
-                            PlantGroupId = 3,
-                            YieldType = YieldType.Ounces
+                            PlantGroupID = 3,
+                            Person = defaultPersons[2]
                         }
 
                 };
@@ -100,7 +130,8 @@ namespace homesteadAPI
                         GrowingSeasonEndDate = new System.DateTime(2019, 10, 31),
                         Width = 20,
                         Length = 10,
-                        MeasurementType = MeasurementType.feet
+                        MeasurementType = MeasurementType.feet,
+                        Person = defaultPersons[0]
                       }
 
                 };
@@ -115,78 +146,27 @@ namespace homesteadAPI
                 new GardenPlant(){
                      Name = "Dinosaur Kale",
                      Plant = defaultPlants[0],
-                     Count = 5,
+                     AmountPlanted = 5,
+                     YieldEstimatedPerAmountPlanted = 2,
+                     YieldType = YieldType.Ounces,
                      Garden = defaultGardens[0]
                 },
                 new GardenPlant(){
                      Name = "Sweet Basil",
                      Plant = defaultPlants[1],
-                     Count = 6,
+                     AmountPlanted = 6,
                       Garden = defaultGardens[0]
                 },
                 new GardenPlant(){
                      Name = "Peppermint",
                      Plant = defaultPlants[2],
-                     Count = 1,
+                     AmountPlanted = 1,
                      Garden = defaultGardens[0]
                 }
 
             };
 
             _context.GardenPlants.AddRange(defaultGardenPlants);
-            _context.SaveChanges();
-
-            List<Person> defaultPersons = new List<Person>()
-            {
-                new Person()
-                {
-                     Name = "Jim Bob",
-                     Email = "jim@bob.com",
-                     CreatedOn = DateTime.Now
-
-                },
-                new Person()
-                {
-                    Name = "Danielle Thurow",
-                     Email = "dan.thurow@gmail.com",
-                     CreatedOn = DateTime.Now
-                },
-                new Person()
-                {
-                     Name = "Jeb Thurow",
-                     Email = "jeb@test.com",
-                     CreatedOn = DateTime.Now
-                }
-
-            };
-            _context.Persons.AddRange(defaultPersons);
-            _context.SaveChanges();
-
-
-            List<PersonPlant> defaultPersonPlants = new List<PersonPlant>()
-            {
-                new PersonPlant()
-                {
-                    Name = "Dinosaur Kale",
-                    Plant = defaultPlants[0],
-                    Person = defaultPersons[0]
-                },
-                new PersonPlant()
-                {
-                    Name = "Sweet Basil",
-                    Plant = defaultPlants[1],
-                    Person = defaultPersons[0]
-                },
-                new PersonPlant()
-                {
-                    Name = "Peppermint",
-                    Plant = defaultPlants[2],
-                    Person = defaultPersons[0]
-                }
-
-            };
-
-            _context.PersonPlants.AddRange(defaultPersonPlants);
             _context.SaveChanges();
 
 

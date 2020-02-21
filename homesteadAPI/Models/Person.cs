@@ -19,7 +19,7 @@ namespace homesteadAPI.Models
         [JsonIgnoreAttribute]
        public virtual ICollection<Garden> Gardens { get; set; }
 
-        public virtual ICollection<PersonPlant> PersonPlants { get; set; }
+        public virtual ICollection<Plant> Plants { get; set; }
         #endregion
         
     }

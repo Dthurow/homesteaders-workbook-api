@@ -5,17 +5,15 @@ using Newtonsoft.Json;
 namespace homesteadAPI.Models
 {
 
-    public class GardenNote
+    public class FoodCategory
     {
         public long ID { get; set; }
 
-        public string Note {get; set;}
+        public string Name {get; set;}
 
         
         [JsonIgnoreAttribute]
         public DateTime CreatedOn { get; set; }
-
-        public virtual Garden Garden { get; set; }
 
     }
 

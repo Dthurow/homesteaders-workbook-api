@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using homesteadAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace homesteadAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -16,6 +17,7 @@ namespace homesteadAPI.Controllers
     public class GardensController : ControllerBase
     {
         private readonly HomesteadDataContext _context;
+        
 
         public GardensController(HomesteadDataContext context)
         {
@@ -59,8 +61,6 @@ namespace homesteadAPI.Controllers
 
 
         // PUT: api/Gardens/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGarden(long id, Garden garden)
         {
@@ -68,6 +68,19 @@ namespace homesteadAPI.Controllers
             {
                 return BadRequest();
             }
+
+             var dbGarden = _context.Gardens.Find(garden.ID);
+            if (dbGarden != null)
+            {
+                dbGarden.Name = garden.Name;
+                dbGarden.GrowingSeasonStartDate = garden.GrowingSeasonStartDate;
+                dbGarden.GrowingSeasonEndDate = garden.GrowingSeasonEndDate;
+                dbGarden.Length = garden.Length;
+                dbGarden.Width = garden.Width;
+                dbGarden.MeasurementType = garden.MeasurementType;
+               
+            }
+
 
             _context.Entry(garden).State = EntityState.Modified;
 
@@ -96,7 +109,22 @@ namespace homesteadAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Garden>> PostGarden(Garden garden)
         {
-            _context.Gardens.Add(garden);
+            
+             var dbGarden = new Garden();
+            if (dbGarden != null)
+            {
+                dbGarden.Name = garden.Name;
+                dbGarden.GrowingSeasonStartDate = garden.GrowingSeasonStartDate;
+                dbGarden.GrowingSeasonEndDate = garden.GrowingSeasonEndDate;
+                dbGarden.Length = garden.Length;
+                dbGarden.Width = garden.Width;
+                dbGarden.MeasurementType = garden.MeasurementType;
+                //TODO - pull personID from their access token, not from their posted garden
+                dbGarden.PersonID = garden.PersonID;
+               
+            }
+
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetGarden", new { id = garden.ID }, garden);
@@ -106,6 +134,8 @@ namespace homesteadAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Garden>> DeleteGarden(long id)
         {
+            
+            //TODO - make sure they're only deleting gardens that belong to them
             var garden = await _context.Gardens.FindAsync(id);
             if (garden == null)
             {

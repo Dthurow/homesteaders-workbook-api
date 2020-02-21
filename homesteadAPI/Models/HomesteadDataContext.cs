@@ -14,9 +14,10 @@ namespace homesteadAPI.Models
         public DbSet<Garden> Gardens { get; set; }
         public DbSet<GardenPlant> GardenPlants { get; set; }
         public DbSet<PlantGroup> PlantGroups { get; set; }
-        public DbSet<GardenNote> GardenNotes {get; set;}
-        public DbSet<Person> Persons{get; set;}
-        public DbSet<PersonPlant> PersonPlants { get; set; }
+        public DbSet<GardenNote> GardenNotes { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<FoodCategory> FoodCategories { get; set; }
+        public DbSet<GardenPlantHarvest> GardenPlantHarvests { get; set; }
 
     }
 }
