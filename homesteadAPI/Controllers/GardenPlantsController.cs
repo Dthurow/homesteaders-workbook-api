@@ -135,14 +135,12 @@ namespace homesteadAPI.Controllers
         }
 
         // POST: api/GardenPlants
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<GardenPlant>> PostGardenPlant(GardenPlant gardenPlant)
         {
             try
             {
-                long personID = GetPersonID();                
+                long personID = GetPersonID();
 
                 if (gardenPlant.PlantID == 0 || gardenPlant.GardenID == 0)
                 {
@@ -151,7 +149,8 @@ namespace homesteadAPI.Controllers
 
                 //make sure they don't try to link to the wrong plant owned by someone else
                 var plant = await _context.Plants.FindAsync(gardenPlant.PlantID);
-                if (plant.PersonID != personID){
+                if (plant.PersonID != personID)
+                {
                     //they're trying to steal plants!
                     return BadRequest();
                 }
@@ -166,7 +165,7 @@ namespace homesteadAPI.Controllers
                 newPlant.AmountPlantedType = gardenPlant.AmountPlantedType;
                 newPlant.YieldEstimatedPerAmountPlanted = gardenPlant.YieldEstimatedPerAmountPlanted;
                 newPlant.AmountPlanted = gardenPlant.AmountPlanted;
-                
+
 
 
                 _context.GardenPlants.Add(newPlant);
@@ -187,13 +186,19 @@ namespace homesteadAPI.Controllers
         {
             try
             {
-                //TODO - make sure they're only deleting garden plants that belong to them
-                var gardenPlant = await _context.GardenPlants.FindAsync(id);
+                string personEmail = GetPersonEmail();
+
+                if (string.IsNullOrEmpty(personEmail))
+                {
+                    return NoContent();
+                }
+
+                var gardenPlant = await GetGardenPlant(personEmail, id);
                 if (gardenPlant == null)
                 {
                     return NotFound();
                 }
-
+               
                 _context.GardenPlants.Remove(gardenPlant);
                 await _context.SaveChangesAsync();
 
