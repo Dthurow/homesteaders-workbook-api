@@ -52,6 +52,22 @@ namespace homesteadAPI
             _context.Persons.AddRange(defaultPersons);
             _context.SaveChanges();
 
+             List<FoodCategory> defaultFoodCategories = new List<FoodCategory>(){
+                        new FoodCategory(){
+                            Name = "Yellow"
+                        },
+                        new FoodCategory(){
+                            Name = "Green"
+                        },
+                        new FoodCategory(){
+                            Name = "Stuff"
+                        }
+
+                };
+
+            _context.FoodCategories.AddRange(defaultFoodCategories);
+            _context.SaveChanges();
+
 
             List<PlantGroup> defaultPlantGroups = new List<PlantGroup>(){
                         new PlantGroup(){
@@ -77,43 +93,57 @@ namespace homesteadAPI
                             Name = "Dinosaur Kale",
                             Description = "winter kale, delicious sauteed in butter",
                             PlantGroupID = 1,
-                            Person = defaultPersons[0]
+                            PersonID = 1,
+                            FoodCategoryID = 2,
+                            ID = 1
                         },
                          new Plant(){
                             Name = "King Kale",
                             Description = "winter kale",
                             PlantGroupID = 1,
-                            Person = defaultPersons[0]
+                            PersonID = 1,
+                            FoodCategoryID = 2,
+                            ID = 2
                         },
                          new Plant(){
                             Name = "Winter Red Kale",
                             Description = "winter kale",
                             PlantGroupID = 1,
-                            Person = defaultPersons[0]
+                            PersonID = 1,
+                            FoodCategoryID = 2,
+                            ID = 3
                         },
                         new Plant(){
                             Name = "Sweet Basil",
                             Description = "the pesto-bilities are endless",
                             PlantGroupID = 2,
-                            Person = defaultPersons[1]
+                            PersonID = 1,
+                            FoodCategoryID = 1,
+                            ID = 4
                         },
                          new Plant(){
                             Name = "Thai Basil",
                             Description = "pho-ndamentally delicious",
                             PlantGroupID = 2,
-                            Person = defaultPersons[1]
+                            PersonID = 2,
+                            FoodCategoryID = 3,
+                            ID = 5
                         },
                         new Plant(){
                             Name = "Peppermint",
                             Description = "Makes a delicious tea",
                             PlantGroupID = 3,
-                            Person = defaultPersons[1]
+                            PersonID = 2,
+                            FoodCategoryID = 2,
+                            ID = 6
                         },
                         new Plant(){
                             Name = "Spearmint",
                             Description = "Makes a delicious tea",
                             PlantGroupID = 3,
-                            Person = defaultPersons[2]
+                            PersonID = 2,
+                            FoodCategoryID = 1,
+                            ID = 7
                         }
 
                 };
@@ -131,7 +161,7 @@ namespace homesteadAPI
                         Width = 20,
                         Length = 10,
                         MeasurementType = MeasurementType.feet,
-                        Person = defaultPersons[0]
+                        PersonID = 1
                       }
 
                 };

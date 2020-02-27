@@ -8,37 +8,45 @@ using Microsoft.EntityFrameworkCore;
 using homesteadAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace homesteadAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class PlantsController : ControllerBase
+    public class PlantsController : BaseController
     {
-        private readonly HomesteadDataContext _context;
-        private IConfiguration Configuration { get; }
+        private readonly ILogger<PlantsController> _logger;
 
-        public PlantsController(HomesteadDataContext context, IConfiguration configuration)
+        public PlantsController(HomesteadDataContext context, IConfiguration configuration, ILogger<PlantsController> logger)
+        : base(context, configuration)
         {
-            _context = context;
-            Configuration = configuration;
+            _logger = logger;
         }
 
         // GET: api/Plants
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Plant>>> GetPlants()
         {
-            string personEmail = GetPersonEmail();
+            try
+            {
+                string personEmail = GetPersonEmail();
 
-            if (string.IsNullOrEmpty(personEmail))
-            {
-                return NoContent();
+                if (string.IsNullOrEmpty(personEmail))
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    var query = await _context.Plants.Where(plant => plant.Person.Email == personEmail).ToListAsync();
+                    return query;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var query = _context.Plants.Where(plant => plant.Person.Email == personEmail);
-                return await query.ToListAsync();
+                _logger.LogError(ex, "Failed to return value");
+                return BadRequest();
             }
         }
 
@@ -46,67 +54,83 @@ namespace homesteadAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Plant>> GetPlant(long id)
         {
-            string personEmail = GetPersonEmail();
-
-            if (string.IsNullOrEmpty(personEmail))
+            try
             {
-                return NoContent();
+                string personEmail = GetPersonEmail();
+
+                if (string.IsNullOrEmpty(personEmail))
+                {
+                    return NoContent();
+                }
+
+                var plant = await _context.Plants.FindAsync(id);
+
+                if (plant == null)
+                {
+                    return NotFound();
+                }
+
+                if (!plant.Person.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return NoContent();
+                }
+
+                return plant;
             }
-
-            var plant = await _context.Plants.FindAsync(id);
-
-            if (plant == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(ex, "Failed to return value");
+                return BadRequest();
             }
-
-            if (plant.Person.Email != GetPersonEmail())
-            {
-                return NoContent();
-            }
-
-            return plant;
         }
 
         // PUT: api/Plants/5
         [HttpPut("{id}")]
         public async Task<ActionResult<Plant>> PutPlant(long id, Plant plant)
         {
-            if (id != plant.ID)
-            {
-                return BadRequest();
-            }
-            var dbplant = _context.Plants.Find(plant.ID);
-            if (dbplant.Person.Email != GetPersonEmail())
-            {
-                return BadRequest();
-            }
-            if (dbplant != null)
-            {
-                dbplant.Name = plant.Name;
-                dbplant.Description = plant.Description;
-                dbplant.PlantGroupID = plant.PlantGroupID;
-                dbplant.SeedLife = plant.SeedLife;
-                dbplant.BuyDate = plant.BuyDate;
-            }
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlantExists(id))
+                if (id != plant.ID)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
+                var dbplant = _context.Plants.Find(plant.ID);
+                if (!dbplant.Person.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase))
                 {
-                    throw;
+                    return BadRequest();
                 }
-            }
+                if (dbplant != null)
+                {
+                    dbplant.Name = plant.Name;
+                    dbplant.Description = plant.Description;
+                    dbplant.PlantGroupID = plant.PlantGroupID;
+                    dbplant.SeedLife = plant.SeedLife;
+                    dbplant.BuyDate = plant.BuyDate;
+                }
 
-            return dbplant;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PlantExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return dbplant;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update value");
+                return BadRequest();
+            }
         }
 
         // POST: api/Plants
@@ -115,41 +139,50 @@ namespace homesteadAPI.Controllers
 
         public async Task<ActionResult<Plant>> PostPlant(Plant plant)
         {
-
-            var dbplant = new Plant();
-            var person = _context.Persons.FirstOrDefault(p => p.Email == GetPersonEmail());
-
-            if (person != null)
+            try
             {
-                dbplant.Name = plant.Name;
-                dbplant.Description = plant.Description;
-                dbplant.PersonID = person.ID;
-                dbplant.PlantGroupID = plant.PlantGroupID;
-                dbplant.SeedLife = plant.SeedLife;
-                dbplant.BuyDate = plant.BuyDate;
+                var dbplant = new Plant();
+                var person = _context.Persons.FirstOrDefault(p => p.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase));
+
+                if (person != null)
+                {
+                    dbplant.Name = plant.Name;
+                    dbplant.Description = plant.Description;
+                    dbplant.PersonID = person.ID;
+                    dbplant.PlantGroupID = plant.PlantGroupID;
+                    dbplant.SeedLife = plant.SeedLife;
+                    dbplant.BuyDate = plant.BuyDate;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+                _context.Plants.Add(dbplant);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetPlant", new { id = plant.ID }, plant);
             }
-            else
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to create value");
                 return BadRequest();
             }
-
-            _context.Plants.Add(dbplant);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPlant", new { id = plant.ID }, plant);
         }
 
         // DELETE: api/Plants/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Plant>> DeletePlant(long id)
         {
-            //TODO - make sure they're only deleting plants that belong to them
+            try{
+            //make sure they're only deleting plants that belong to them
             var plant = await _context.Plants.FindAsync(id);
             if (plant == null)
             {
                 return NotFound();
             }
-            if (plant.Person.Email != GetPersonEmail()){
+            if (!plant.Person.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase))
+            {
                 return BadRequest();
             }
 
@@ -163,6 +196,12 @@ namespace homesteadAPI.Controllers
             await _context.SaveChangesAsync();
 
             return plant;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete value");
+                return BadRequest();
+            }
         }
 
         private bool PlantExists(long id)
@@ -170,10 +209,6 @@ namespace homesteadAPI.Controllers
             return _context.Plants.Any(e => e.ID == id);
         }
 
-        private string GetPersonEmail()
-        {
-            string audience = Configuration["Auth0:Audience"];
-            return HttpContext.User.Claims.FirstOrDefault(c => c.Type == audience + "email")?.Value;
-        }
+
     }
 }
