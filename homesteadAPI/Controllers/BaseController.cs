@@ -27,7 +27,7 @@ namespace homesteadAPI.Controllers
         public virtual long GetPersonID(){
             string email = GetPersonEmail();
             if (!string.IsNullOrEmpty(email)){
-                var person = _context.Persons.FirstOrDefault(x=> x.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase));
+                var person = _context.Persons.FirstOrDefault(x=> x.Email == email);
                 if (person != null){
                     return person.ID;
                 }

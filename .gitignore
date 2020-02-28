@@ -21,3 +21,10 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+
+# nlog files
+internal-nlog.txt
+
+# Sqllite dev database used for testing
+*.sqlite3

@@ -60,7 +60,7 @@ namespace homesteadAPI
 
             services.AddDbContext<HomesteadDataContext>(opt =>
               opt.UseLazyLoadingProxies() //it will auto-load related entities when properties are accessed
-              .UseInMemoryDatabase("HomesteadData") //currently uses inmemory, should eventually be moved to SQL db
+              .UseSqlite(Configuration["Connectionstrings:database"])
               );
 
             //use newtonsoft json with loop handling so EFCore doesn't trigger circular loops when

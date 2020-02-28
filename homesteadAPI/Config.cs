@@ -18,6 +18,7 @@ namespace homesteadAPI
 
         public void InitializeDatabase()
         {
+            _context.Database.OpenConnection();
             _context.Database.EnsureCreated();
 
             if (_context.Plants.Any())

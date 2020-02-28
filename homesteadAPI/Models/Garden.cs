@@ -39,7 +39,7 @@ namespace homesteadAPI.Models
         public DateTime CreatedOn {get; set;}
 
         [Required]
-         public int PersonID {get; set;}
+         public long PersonID {get; set;}
          
          
         public virtual Person Person {get; set;}

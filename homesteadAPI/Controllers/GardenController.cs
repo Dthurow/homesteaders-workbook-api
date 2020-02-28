@@ -146,17 +146,6 @@ namespace homesteadAPI.Controllers
             {
                 long personID = GetPersonID();
 
-                if (garden.PersonID == 0)
-                {
-                    return BadRequest();
-                }
-
-                //make sure they don't try to link to a different person
-                if (garden.PersonID != personID)
-                {
-                    return BadRequest();
-                }
-
 
                 var newGarden = new Garden();
                 if (newGarden != null)
@@ -167,7 +156,7 @@ namespace homesteadAPI.Controllers
                     newGarden.Length = garden.Length;
                     newGarden.Width = garden.Width;
                     newGarden.MeasurementType = garden.MeasurementType;
-                    newGarden.PersonID = garden.PersonID;
+                    newGarden.PersonID = personID;
 
                 }
 
@@ -176,7 +165,7 @@ namespace homesteadAPI.Controllers
                 _context.Gardens.Add(newGarden);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetGarden", new { id = garden.ID }, garden);
+                return CreatedAtAction("GetGarden", new { id = newGarden.ID }, newGarden);
             }
             catch (Exception ex)
             {

@@ -142,7 +142,7 @@ namespace homesteadAPI.Controllers
             try
             {
                 var dbplant = new Plant();
-                var person = _context.Persons.FirstOrDefault(p => p.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase));
+                var person = _context.Persons.FirstOrDefault(p => p.Email == GetPersonEmail());
 
                 if (person != null)
                 {
@@ -152,6 +152,8 @@ namespace homesteadAPI.Controllers
                     dbplant.PlantGroupID = plant.PlantGroupID;
                     dbplant.SeedLife = plant.SeedLife;
                     dbplant.BuyDate = plant.BuyDate;
+                    dbplant.FoodCategoryID = plant.FoodCategoryID;
+                    
                 }
                 else
                 {
