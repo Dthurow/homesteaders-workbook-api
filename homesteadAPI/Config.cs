@@ -27,7 +27,7 @@ namespace homesteadAPI
                 return;
             }
 
-             List<Person> defaultPersons = new List<Person>()
+            List<Person> defaultPersons = new List<Person>()
             {
                 new Person()
                 {
@@ -53,17 +53,37 @@ namespace homesteadAPI
             _context.Persons.AddRange(defaultPersons);
             _context.SaveChanges();
 
-             List<FoodCategory> defaultFoodCategories = new List<FoodCategory>(){
+            List<FoodCategory> defaultFoodCategories = new List<FoodCategory>(){
                         new FoodCategory(){
-                            Name = "Yellow"
-                        },
-                        new FoodCategory(){
-                            Name = "Green"
-                        },
-                        new FoodCategory(){
-                            Name = "Stuff"
-                        }
-
+                            ID=1,
+                            Name="citrus/tomato",
+                            CreatedOn= DateTime.Now
+                            },
+                            new FoodCategory(){
+                            ID=2,
+                            Name="grn/ylw veg",
+                            CreatedOn= DateTime.Now
+                            },
+                            new FoodCategory(){
+                            ID=3,
+                            Name="potatoes",
+                            CreatedOn= DateTime.Now
+                            },
+                            new FoodCategory(){
+                            ID=4,
+                            Name="other frt/veg",
+                            CreatedOn= DateTime.Now
+                            },
+                            new FoodCategory(){
+                            ID=5,
+                            Name="grains",
+                            CreatedOn= DateTime.Now
+                            },
+                            new FoodCategory(){
+                            ID=6,
+                            Name="dry bns/peas/nuts",
+                            CreatedOn= DateTime.Now
+                            },
                 };
 
             _context.FoodCategories.AddRange(defaultFoodCategories);
@@ -73,14 +93,17 @@ namespace homesteadAPI
             List<PlantGroup> defaultPlantGroups = new List<PlantGroup>(){
                         new PlantGroup(){
                             Name = "Kale",
-                            Description = "kale"
+                            Description = "kale",
+                            PersonID = 2,
                         },
                         new PlantGroup(){
-                            Name = "Basil"
+                            Name = "Basil",
+                            PersonID = 2,
                         },
                         new PlantGroup(){
                             Name = "Mint",
-                            Description = "Makes a delicious tea"
+                            Description = "Makes a delicious tea",
+                            PersonID = 2
                         }
 
                 };

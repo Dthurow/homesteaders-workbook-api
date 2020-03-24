@@ -38,11 +38,9 @@ namespace homesteadAPI.Models
 
         public virtual long PersonID { get; set; }
 
-        [JsonIgnoreAttribute]
         public long PlantGroupID { get; set; }
         public virtual PlantGroup PlantGroup { get; set; }
 
-        [JsonIgnoreAttribute]
         public long FoodCategoryID { get; set; }
         public virtual FoodCategory FoodCategory { get; set; }
 

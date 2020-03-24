@@ -84,6 +84,32 @@ namespace homesteadAPI.Controllers
             }
         }
 
+        // GET: api/Plants
+        [HttpGet("plantgroups")]
+        public async Task<ActionResult<IEnumerable<PlantGroup>>> GetPlantGroups()
+        {
+            try
+            {
+                string personEmail = GetPersonEmail();
+
+                if (string.IsNullOrEmpty(personEmail))
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    var query = await _context.PlantGroups.Where(plantGroup => plantGroup.Person.Email == personEmail).ToListAsync();
+                    return query;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to return value");
+                return BadRequest();
+            }
+        }
+
+
         // PUT: api/Plants/5
         [HttpPut("{id}")]
         public async Task<ActionResult<Plant>> PutPlant(long id, Plant plant)
@@ -153,7 +179,7 @@ namespace homesteadAPI.Controllers
                     dbplant.SeedLife = plant.SeedLife;
                     dbplant.BuyDate = plant.BuyDate;
                     dbplant.FoodCategoryID = plant.FoodCategoryID;
-                    
+
                 }
                 else
                 {
@@ -163,7 +189,7 @@ namespace homesteadAPI.Controllers
                 _context.Plants.Add(dbplant);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetPlant", new { id = plant.ID }, plant);
+                return CreatedAtAction("GetPlant", new { id = dbplant.ID }, dbplant);
             }
             catch (Exception ex)
             {
@@ -176,28 +202,29 @@ namespace homesteadAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Plant>> DeletePlant(long id)
         {
-            try{
-            //make sure they're only deleting plants that belong to them
-            var plant = await _context.Plants.FindAsync(id);
-            if (plant == null)
+            try
             {
-                return NotFound();
-            }
-            if (!plant.Person.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return BadRequest();
-            }
+                //make sure they're only deleting plants that belong to them
+                var plant = await _context.Plants.FindAsync(id);
+                if (plant == null)
+                {
+                    return NotFound();
+                }
+                if (!plant.Person.Email.Equals(GetPersonEmail(), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return BadRequest();
+                }
 
-            //if the plant has any associated garden plants to it, can't delete
-            if (plant.GardenPlants != null && plant.GardenPlants.Any())
-            {
-                return Problem("Plant must have no associated Garden Plants associated with it", statusCode: 428);
-            }
+                //if the plant has any associated garden plants to it, can't delete
+                if (plant.GardenPlants != null && plant.GardenPlants.Any())
+                {
+                    return Problem("Plant must have no associated Garden Plants associated with it", statusCode: 428);
+                }
 
-            _context.Plants.Remove(plant);
-            await _context.SaveChangesAsync();
+                _context.Plants.Remove(plant);
+                await _context.SaveChangesAsync();
 
-            return plant;
+                return plant;
             }
             catch (Exception ex)
             {
