@@ -10,6 +10,8 @@ namespace homesteadAPI.Models
     public enum AmountType
     {
         ounces,
+        grams,
+        milligrams,
         seeds
     }
 

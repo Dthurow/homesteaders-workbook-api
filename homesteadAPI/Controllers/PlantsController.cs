@@ -130,6 +130,9 @@ namespace homesteadAPI.Controllers
                     dbplant.Name = plant.Name;
                     dbplant.Description = plant.Description;
                     dbplant.PlantGroupID = plant.PlantGroupID;
+                    dbplant.FoodCategoryID = plant.FoodCategoryID;
+                    dbplant.Amount = plant.Amount;
+                    dbplant.AmountType = plant.AmountType;
                     dbplant.SeedLife = plant.SeedLife;
                     dbplant.BuyDate = plant.BuyDate;
                 }
@@ -176,6 +179,8 @@ namespace homesteadAPI.Controllers
                     dbplant.Description = plant.Description;
                     dbplant.PersonID = person.ID;
                     dbplant.PlantGroupID = plant.PlantGroupID;
+                    dbplant.Amount = plant.Amount;
+                    dbplant.AmountType = plant.AmountType;
                     dbplant.SeedLife = plant.SeedLife;
                     dbplant.BuyDate = plant.BuyDate;
                     dbplant.FoodCategoryID = plant.FoodCategoryID;
