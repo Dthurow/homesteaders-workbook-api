@@ -34,7 +34,7 @@ namespace homesteadAPI
         {
 
             //Add authentication for Auth0
-             string domain = $"https://{Configuration["Auth0:Domain"]}/";
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -89,14 +89,22 @@ namespace homesteadAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, HomesteadDataContext _context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, HomesteadDataContext _context, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                try
+                {
+                    Config CustomConfig = new Config(_context, logger);
+                    CustomConfig.InitializeDatabase();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Could not initialize database with test data");
+                }
                 //sets up the DB and seeds it with test data
-                Config CustomConfig = new Config(_context);
-                CustomConfig.InitializeDatabase();
+
                 app.UseCors("DevCustomCORS");
             }
 

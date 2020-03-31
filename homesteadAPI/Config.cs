@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace homesteadAPI
 {
@@ -10,20 +11,24 @@ namespace homesteadAPI
     public class Config
     {
         private readonly HomesteadDataContext _context;
+        private readonly ILogger<Startup> _logger;
 
-        public Config(HomesteadDataContext context)
+        public Config(HomesteadDataContext context, ILogger<Startup> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public void InitializeDatabase()
         {
+            _logger.LogInformation("Starting initialization of db");
             _context.Database.OpenConnection();
             _context.Database.EnsureCreated();
 
             if (_context.Plants.Any())
             {
                 //db already seeded
+                _logger.LogInformation("database already seeded");
                 return;
             }
 
@@ -52,6 +57,7 @@ namespace homesteadAPI
             };
             _context.Persons.AddRange(defaultPersons);
             _context.SaveChanges();
+            _logger.LogInformation("Saved test person records");
 
             List<FoodCategory> defaultFoodCategories = new List<FoodCategory>(){
                         new FoodCategory(){
@@ -88,6 +94,7 @@ namespace homesteadAPI
 
             _context.FoodCategories.AddRange(defaultFoodCategories);
             _context.SaveChanges();
+            _logger.LogInformation("saved test food categories");
 
 
             List<PlantGroup> defaultPlantGroups = new List<PlantGroup>(){
@@ -110,6 +117,7 @@ namespace homesteadAPI
 
             _context.PlantGroups.AddRange(defaultPlantGroups);
             _context.SaveChanges();
+            _logger.LogInformation("saved test plant groups");
 
 
             List<Plant> defaultPlants = new List<Plant>(){
@@ -174,7 +182,7 @@ namespace homesteadAPI
 
             _context.Plants.AddRange(defaultPlants);
             _context.SaveChanges();
-
+            _logger.LogInformation("saved test plants");
 
             List<Garden> defaultGardens = new List<Garden>(){
                       new Garden(){
@@ -192,7 +200,7 @@ namespace homesteadAPI
 
             _context.Gardens.AddRange(defaultGardens);
             _context.SaveChanges();
-
+            _logger.LogInformation("saved test gardens");
 
 
             List<GardenPlant> defaultGardenPlants = new List<GardenPlant>()
@@ -222,6 +230,7 @@ namespace homesteadAPI
 
             _context.GardenPlants.AddRange(defaultGardenPlants);
             _context.SaveChanges();
+            _logger.LogInformation("saved test garden plants");
 
 
         }
