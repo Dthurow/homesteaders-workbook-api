@@ -23,11 +23,11 @@ namespace homesteadAPI.Controllers
         }
 
         [HttpGet("AccessDb")]
-        public string AccessDb()
+        public async Task<string> AccessDb()
         {
             try
             {
-                var query = _context.Plants.ToList();
+                var query = await _context.Plants.ToListAsync();
                 if (query.Count > 0){
                     return "Found " + query.Count + " plants";
                 }
