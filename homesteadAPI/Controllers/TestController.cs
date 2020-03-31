@@ -15,9 +15,35 @@ namespace homesteadAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestController : ControllerBase
+    public class TestController : BaseController
     {
-        public string IsUp(){
+        public TestController(HomesteadDataContext context, IConfiguration configuration)
+      : base(context, configuration)
+        {
+        }
+
+        [HttpGet("AccessDb")]
+        public string AccessDb()
+        {
+            try
+            {
+                var query = _context.Plants.ToList();
+                if (query.Count > 0){
+                    return "Found " + query.Count + " plants";
+                }
+                return "Found zero plants";
+
+            }
+            catch (Exception ex)
+            {
+                return "Error message: " + ex.Message + ex.StackTrace;
+            }
+        }
+
+
+        [HttpGet("IsUp")]
+        public string IsUp()
+        {
             return "YES";
         }
 
