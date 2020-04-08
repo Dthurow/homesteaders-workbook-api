@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace homesteadAPI.Models
 {
@@ -33,6 +36,12 @@ namespace homesteadAPI.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public YieldType YieldType { get; set; }
 
+        public int CurrentYieldAmount {
+            get
+            {
+                return GardenPlantHarvests != null ? GardenPlantHarvests.Sum(h=>h.AmountHarvested) : 0;
+            }
+        }
 
 
         [JsonIgnoreAttribute]
@@ -47,6 +56,9 @@ namespace homesteadAPI.Models
         public virtual Garden Garden {get; set;}
 
         public virtual long GardenID {get; set;}
+
+        [JsonIgnoreAttribute]
+        public virtual ICollection<GardenPlantHarvest> GardenPlantHarvests { get; set; }
 
         #endregion
 
