@@ -107,6 +107,7 @@ namespace homesteadAPI.Controllers
                     dbGardenPlant.YieldEstimatedPerAmountPlanted = gardenPlant.YieldEstimatedPerAmountPlanted;
                     dbGardenPlant.YieldType = gardenPlant.YieldType;
                     dbGardenPlant.AmountPlantedType = gardenPlant.AmountPlantedType;
+                    dbGardenPlant.FinishedHarvesting = gardenPlant.FinishedHarvesting;
                 }
 
                 try
@@ -165,7 +166,7 @@ namespace homesteadAPI.Controllers
                 newPlant.AmountPlantedType = gardenPlant.AmountPlantedType;
                 newPlant.YieldEstimatedPerAmountPlanted = gardenPlant.YieldEstimatedPerAmountPlanted;
                 newPlant.AmountPlanted = gardenPlant.AmountPlanted;
-
+                newPlant.FinishedHarvesting = gardenPlant.FinishedHarvesting;
 
 
                 _context.GardenPlants.Add(newPlant);

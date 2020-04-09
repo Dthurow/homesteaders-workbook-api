@@ -38,20 +38,23 @@ namespace homesteadAPI
                 {
                      Name = "Jim Bob",
                      Email = "jim@bob.com",
-                     CreatedOn = DateTime.Now
+                     CreatedOn = DateTime.Now,
+                     ID = 3
 
                 },
                 new Person()
                 {
                     Name = "Danielle Thurow",
                      Email = "dan.thurow@gmail.com",
-                     CreatedOn = DateTime.Now
+                     CreatedOn = DateTime.Now,
+                     ID = 1
                 },
                 new Person()
                 {
-                     Name = "Jeb Thurow",
+                     Name = "Dee Thurow",
                      Email = "husky0420@gmail.com",
-                     CreatedOn = DateTime.Now
+                     CreatedOn = DateTime.Now,
+                     ID = 2
                 }
 
             };
@@ -110,7 +113,21 @@ namespace homesteadAPI
                         new PlantGroup(){
                             Name = "Mint",
                             Description = "Makes a delicious tea",
-                            PersonID = 2
+                            PersonID = 1
+                        },
+                         new PlantGroup(){
+                            Name = "Kale",
+                            Description = "kale",
+                            PersonID = 1,
+                        },
+                        new PlantGroup(){
+                            Name = "Basil",
+                            PersonID = 1,
+                        },
+                        new PlantGroup(){
+                            Name = "Mint",
+                            Description = "Makes a delicious tea",
+                            PersonID = 1
                         }
 
                 };
@@ -211,19 +228,22 @@ namespace homesteadAPI
                      AmountPlanted = 5,
                      YieldEstimatedPerAmountPlanted = 2,
                      YieldType = YieldType.Ounces,
-                     Garden = defaultGardens[0]
+                     Garden = defaultGardens[0],
+                     FinishedHarvesting = false
                 },
                 new GardenPlant(){
                      Name = "Sweet Basil",
                      Plant = defaultPlants[1],
                      AmountPlanted = 6,
-                      Garden = defaultGardens[0]
+                      Garden = defaultGardens[0],
+                      FinishedHarvesting = false
                 },
                 new GardenPlant(){
                      Name = "Peppermint",
                      Plant = defaultPlants[2],
                      AmountPlanted = 1,
-                     Garden = defaultGardens[0]
+                     Garden = defaultGardens[0],
+                     FinishedHarvesting = false
                 }
 
             };

@@ -43,6 +43,7 @@ namespace homesteadAPI.Models
             }
         }
 
+        public bool FinishedHarvesting {get; set; }
 
         [JsonIgnoreAttribute]
         public DateTime CreatedOn {get; set;}
@@ -56,6 +57,12 @@ namespace homesteadAPI.Models
         public virtual Garden Garden {get; set;}
 
         public virtual long GardenID {get; set;}
+
+        public string GardenName {
+            get{
+                return Garden != null ? Garden.Name : "";
+            }
+        }
 
         [JsonIgnoreAttribute]
         public virtual ICollection<GardenPlantHarvest> GardenPlantHarvests { get; set; }
