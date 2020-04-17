@@ -28,3 +28,6 @@ internal-nlog.txt
 
 # Sqllite dev database used for testing
 *.sqlite3
+
+# dev SSL cert
+*.pfx
