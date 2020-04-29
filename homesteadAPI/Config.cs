@@ -33,29 +33,27 @@ namespace homesteadAPI
             }
 
             List<Person> defaultPersons = new List<Person>()
-            {
+            {new Person()
+                {
+                    Name = "Danielle Thurow",
+                     Email = "dan.thurow@gmail.com",
+                     CreatedOn = DateTime.Now
+                },
+                 new Person()
+                {
+                     Name = "Dee Thurow",
+                     Email = "husky0420@gmail.com",
+                     CreatedOn = DateTime.Now
+                },
                 new Person()
                 {
                      Name = "Jim Bob",
                      Email = "jim@bob.com",
-                     CreatedOn = DateTime.Now,
-                     ID = 3
+                     CreatedOn = DateTime.Now
 
                 },
-                new Person()
-                {
-                    Name = "Danielle Thurow",
-                     Email = "dan.thurow@gmail.com",
-                     CreatedOn = DateTime.Now,
-                     ID = 1
-                },
-                new Person()
-                {
-                     Name = "Dee Thurow",
-                     Email = "husky0420@gmail.com",
-                     CreatedOn = DateTime.Now,
-                     ID = 2
-                }
+                
+               
 
             };
             _context.Persons.AddRange(defaultPersons);
@@ -64,32 +62,32 @@ namespace homesteadAPI
 
             List<FoodCategory> defaultFoodCategories = new List<FoodCategory>(){
                         new FoodCategory(){
-                            ID=1,
+                            
                             Name="citrus/tomato",
                             CreatedOn= DateTime.Now
                             },
                             new FoodCategory(){
-                            ID=2,
+                            
                             Name="grn/ylw veg",
                             CreatedOn= DateTime.Now
                             },
                             new FoodCategory(){
-                            ID=3,
+                            
                             Name="potatoes",
                             CreatedOn= DateTime.Now
                             },
                             new FoodCategory(){
-                            ID=4,
+                            
                             Name="other frt/veg",
                             CreatedOn= DateTime.Now
                             },
                             new FoodCategory(){
-                            ID=5,
+                            
                             Name="grains",
                             CreatedOn= DateTime.Now
                             },
                             new FoodCategory(){
-                            ID=6,
+                            
                             Name="dry bns/peas/nuts",
                             CreatedOn= DateTime.Now
                             },
@@ -144,7 +142,6 @@ namespace homesteadAPI
                             PlantGroupID = 1,
                             PersonID = 1,
                             FoodCategoryID = 2,
-                            ID = 1
                         },
                          new Plant(){
                             Name = "King Kale",
@@ -152,7 +149,6 @@ namespace homesteadAPI
                             PlantGroupID = 1,
                             PersonID = 1,
                             FoodCategoryID = 2,
-                            ID = 2
                         },
                          new Plant(){
                             Name = "Winter Red Kale",
@@ -160,7 +156,6 @@ namespace homesteadAPI
                             PlantGroupID = 1,
                             PersonID = 1,
                             FoodCategoryID = 2,
-                            ID = 3
                         },
                         new Plant(){
                             Name = "Sweet Basil",
@@ -168,7 +163,6 @@ namespace homesteadAPI
                             PlantGroupID = 2,
                             PersonID = 1,
                             FoodCategoryID = 1,
-                            ID = 4
                         },
                          new Plant(){
                             Name = "Thai Basil",
@@ -176,7 +170,6 @@ namespace homesteadAPI
                             PlantGroupID = 2,
                             PersonID = 2,
                             FoodCategoryID = 3,
-                            ID = 5
                         },
                         new Plant(){
                             Name = "Peppermint",
@@ -184,7 +177,6 @@ namespace homesteadAPI
                             PlantGroupID = 3,
                             PersonID = 2,
                             FoodCategoryID = 2,
-                            ID = 6
                         },
                         new Plant(){
                             Name = "Spearmint",
@@ -192,7 +184,6 @@ namespace homesteadAPI
                             PlantGroupID = 3,
                             PersonID = 2,
                             FoodCategoryID = 1,
-                            ID = 7
                         }
 
                 };
@@ -204,7 +195,6 @@ namespace homesteadAPI
             List<Garden> defaultGardens = new List<Garden>(){
                       new Garden(){
                         Name = "Joe's Garden",
-                        ID = 1,
                         GrowingSeasonStartDate = new System.DateTime(2019, 1, 15),
                         GrowingSeasonEndDate = new System.DateTime(2019, 10, 31),
                         Width = 20,

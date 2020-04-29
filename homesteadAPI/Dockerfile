@@ -22,4 +22,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 RUN chown dotnetUser /app
 USER dotnetUser
-CMD dotnet homesteadAPI.dll --urls=https://+:$PORT
+CMD dotnet homesteadAPI.dll --urls=http://+:$PORT

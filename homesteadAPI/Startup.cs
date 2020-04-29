@@ -58,9 +58,23 @@ namespace homesteadAPI
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
 
+            //pull in connection string
+            string connectionString = null;
+            string envVar = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if (string.IsNullOrEmpty(envVar)){
+                connectionString = Configuration["Connectionstrings:database"];
+            }
+            else{
+                //parse database URL. Format is postgres://<username>:<password>@<host>/<dbname>
+                var uri = new Uri(envVar);
+                var username = uri.UserInfo.Split(':')[0];
+                var password = uri.UserInfo.Split(':')[1];
+                connectionString = "Host=" + uri.Host + "; Database=" + uri.AbsolutePath.Substring(1) + "; Username=" + username + "; Password=" + password + "; Port=" + uri.Port + "; SSL Mode=Require; Trust Server Certificate=true;";
+            }
+
             services.AddDbContext<HomesteadDataContext>(opt =>
               opt.UseLazyLoadingProxies() //it will auto-load related entities when properties are accessed
-              .UseSqlite(Configuration["Connectionstrings:database"])
+              .UseNpgsql(connectionString)
               );
 
             //use newtonsoft json with loop handling so EFCore doesn't trigger circular loops when
@@ -108,7 +122,7 @@ namespace homesteadAPI
                 app.UseCors("DevCustomCORS");
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

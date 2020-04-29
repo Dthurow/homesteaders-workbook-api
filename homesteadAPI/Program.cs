@@ -17,7 +17,7 @@ namespace homesteadAPI
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                logger.Debug("init main");
+                logger.Debug("init main with args: " + String.Join(", ", args));
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception exception)

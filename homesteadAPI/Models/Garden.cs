@@ -18,6 +18,7 @@ namespace homesteadAPI.Models
     {
 
         [Required]
+        [Key]
         public long ID {get; set;}
 
         [Required]

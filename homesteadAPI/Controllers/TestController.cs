@@ -17,9 +17,14 @@ namespace homesteadAPI.Controllers
     [ApiController]
     public class TestController : BaseController
     {
-        public TestController(HomesteadDataContext context, IConfiguration configuration)
+
+        private readonly ILogger<TestController> _logger;
+
+        public TestController(HomesteadDataContext context, IConfiguration configuration, ILogger<TestController> logger)
       : base(context, configuration)
         {
+            _logger = logger;
+            _logger.LogInformation("testcontroller construct");
         }
 
         [HttpGet("AccessDb")]
@@ -44,6 +49,7 @@ namespace homesteadAPI.Controllers
         [HttpGet("IsUp")]
         public string IsUp()
         {
+            _logger.LogInformation("isup func");
             return "YES";
         }
 

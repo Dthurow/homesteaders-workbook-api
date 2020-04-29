@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace homesteadAPI.Models
 {
@@ -19,6 +20,7 @@ namespace homesteadAPI.Models
 
     public class Plant
     {
+        [Key]
         public long ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

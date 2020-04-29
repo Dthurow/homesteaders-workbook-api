@@ -24,6 +24,7 @@ namespace homesteadAPI.Models
 
     public class GardenPlant
     {
+        [Key]
         public long ID {get; set;}
         public string Name {get; set;}
         public int AmountPlanted {get; set;}
