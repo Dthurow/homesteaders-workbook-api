@@ -122,7 +122,6 @@ namespace homesteadAPI
                 app.UseCors("DevCustomCORS");
             }
 
-            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
