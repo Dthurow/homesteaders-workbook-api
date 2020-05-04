@@ -21,7 +21,7 @@ namespace homesteadAPI.Controllers
         }
 
         [HttpGet("loggedin")]
-        public async void LogInCheck(string name)
+        public async Task<ActionResult<Person>> LogInCheck(string name)
         {
             bool exists = false;
             try
@@ -45,6 +45,10 @@ namespace homesteadAPI.Controllers
 
                 _context.Persons.Add(person);
                 await _context.SaveChangesAsync();
+                return CreatedAtAction("GetPerson", new { id = person.ID }, person);
+            }
+            else{
+                return Ok();
             }
         }
 
